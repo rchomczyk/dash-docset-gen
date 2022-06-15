@@ -1,5 +1,5 @@
 ## dash-docset-gen
-Simple and lightweight tool, which basically parses the javadoc's documentation and generates the Docset's file with respect of [Dash's tutorial](https://kapeli.com/docsets#dashDocset)
+Simple and lightweight tool, which basically parses the javadoc's documentation and generates the Docset's file with respect of [Dash's tutorial](https://kapeli.com/docsets#dashDocset).
 
 ### Information
 - You need to provide the absolute path of source and target directories, becasue currently we are doing a little of magic inside internals to get the correct paths.
