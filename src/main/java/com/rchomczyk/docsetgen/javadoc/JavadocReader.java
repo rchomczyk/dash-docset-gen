@@ -9,6 +9,7 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 public class JavadocReader {
@@ -27,20 +28,23 @@ public class JavadocReader {
             Elements indexElements = indexFile.getElementsByTag("dt");
             for (Element indexElement : indexElements) {
                 String elementText = indexElement.text();
-                if (indexElement.hasText() && elementText.contains("method")) {
+                if (indexElement.hasText() && elementText.toLowerCase().contains("method")) {
                     String[] partitionedText = elementText.split(" - ");
                     String methodName = partitionedText[0];
                     String methodPath;
                     Elements linkElements = indexElement.getElementsByTag("a");
                     if (linkElements.isEmpty()) {
-                        methodPath = partitionedText[1].split(" in class ")[1].replace(".", "/");
+                        methodPath = (partitionedText[1].contains(" in class ")
+                                ? partitionedText[1].split(" in class ")[1]
+                                : partitionedText[1].split(" in interface ")[1])
+                                .replace(".", "/");
                     } else {
                         methodPath = linkElements.get(0).attr("href");
                     }
                     entries.add(new JavadocEntry(methodName, EntryType.METHOD, methodPath));
                 }
 
-                if (indexElement.hasText() && elementText.contains("Constructor")) {
+                if (indexElement.hasText() && elementText.toLowerCase(Locale.ROOT).contains("constructor")) {
                     Elements linkElements = indexElement.getElementsByTag("a");
                     if (linkElements.isEmpty()) {
                         continue;
